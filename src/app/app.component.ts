@@ -17,22 +17,17 @@ export class MyApp {
   pages: Array<{title: string, component: any , icon: string }>;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen  ) {
-    this.initializeApp();
-    
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'الفئات', component: HomePage , icon: "md-filing"},
       { title: 'اتصل بنا', component: ContactUsPage , icon: "md-call"}
     ];
-
-  }
-
-  initializeApp() {
     this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
-    });
+          this.statusBar.backgroundColorByHexString('#fff82e');
+          this.splashScreen.hide();
+        });
   }
+
 
   openPage(page) {
     this.nav.setRoot(page.component, { splish: false } );

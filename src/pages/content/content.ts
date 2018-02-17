@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
+import { NavController, NavParams } from 'ionic-angular';
+import { AdMobFree , AdMobFreeBannerConfig , AdMobFreeInterstitialConfig } from '@ionic-native/admob-free';
 import { FileProvider } from '../../providers/file/file';
 
 
-@IonicPage()
 @Component({
   selector: 'page-content',
   templateUrl: 'content.html',
@@ -20,10 +19,11 @@ export class ContentPage {
   BG:any;
   title:any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams , private File:FileProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams , private File:FileProvider , private adMobFree: AdMobFree) {
     this.leadDataFromList2();
     this.getInfo();
-    console.log(this.getP1+" "+this.getP2);
+    this.showInterstitialAd();
+    this.showBannerAd();
   }
 
   ionViewDidLoad() {
@@ -61,6 +61,42 @@ export class ContentPage {
       this.items=tems;
       
     });
+  }
+
+  async showInterstitialAd() {
+    try {
+      const interstitialConfig: AdMobFreeInterstitialConfig = {
+        id: 'ca-app-pub-7651246904710703/7791443851',
+        isTesting: true,
+        autoShow: true
+      }
+
+      this.adMobFree.interstitial.config(interstitialConfig);
+
+      const result = await this.adMobFree.interstitial.prepare();
+      console.log(result);
+    }
+    catch (e) {
+      console.error(e)
+    }
+  }
+
+  async showBannerAd() {
+    try {
+      const bannerConfig: AdMobFreeBannerConfig = {
+        id: 'ca-app-pub-7651246904710703/6556302127',
+        isTesting: true,
+        autoShow: true
+      }
+
+      this.adMobFree.banner.config(bannerConfig);
+
+      const result = await this.adMobFree.banner.prepare();
+      console.log(result);
+    }
+    catch (e) {
+      console.error(e);
+    }
   }
 
 }

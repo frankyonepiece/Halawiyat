@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController , NavParams } from 'ionic-angular';
 import { List2Page } from '../list2/list2';
+import { AdMobFree , AdMobFreeBannerConfig } from '@ionic-native/admob-free';
 
 import { FileProvider } from '../../providers/file/file';
 
@@ -17,10 +18,10 @@ export class HomePage {
 
   public posts : any ;
    
-  constructor(public navCtrl: NavController , private navParams:NavParams , private File:FileProvider ) {
+  constructor(public navCtrl: NavController , private navParams:NavParams , private File:FileProvider , private adMobFree: AdMobFree ) {
     //hadi bach n3ayet 3la function li sawebt bach ghi tkhdem had l page tkhadem function
     this.getLoadFile();
-    
+    this.showBannerAd();
   }
 
 
@@ -50,12 +51,6 @@ export class HomePage {
   
   ionViewDidLoad(){
 
-    /*this.event.subscribe('splish' , (date) => {
-
-      this.splash = date ;
-        
-    });*/
-
     if(this.navParams.get('splish') == undefined ){
       this.splash = true;
     }else{
@@ -64,6 +59,24 @@ export class HomePage {
 
     setTimeout( () => { this.splash=false }, 3500);
   
+  }
+
+  async showBannerAd() {
+    try {
+      const bannerConfig: AdMobFreeBannerConfig = {
+        id: 'ca-app-pub-7651246904710703/6556302127',
+        isTesting: true,
+        autoShow: true
+      }
+
+      this.adMobFree.banner.config(bannerConfig);
+
+      const result = await this.adMobFree.banner.prepare();
+      console.log(result);
+    }
+    catch (e) {
+      console.error(e);
+    }
   }
 
   
